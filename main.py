@@ -31,14 +31,18 @@ print(exercise_insight["exercises"][0]["user_input"])
 print(exercise_insight["exercises"][0]["duration_min"])
 print(exercise_insight["exercises"][0]["nf_calories"])
 
-workout = {
-    # "date": date.today(),
-    # "time": datetime.now().strftime("%H:%M:%S"),
-    "Exercise": exercise_insight["exercises"][0]["user_input"],
-    "Duration": exercise_insight["exercises"][0]["duration_min"],
-    "Calories": exercise_insight["exercises"][0]["nf_calories"]
-}
-#
-r = requests.post(url=sheety_post_endpoint, json=workout)
+for exercise in exercise_insight["exercises"]:
 
-print(r.status_code)
+    work = {
+        "workout": {
+            "time": datetime.now().strftime("%X"),
+            "date": datetime.now().strftime("%d/%m/%Y"),
+            "exercise": exercise_insight["exercises"][0]["name"].title(),
+            "duration": exercise_insight["exercises"][0]["duration_min"],
+            "calories": exercise_insight["exercises"][0]["nf_calories"]
+        }
+    }
+#
+r = requests.post(url=sheety_post_endpoint, json=work)
+
+print(r.text)
